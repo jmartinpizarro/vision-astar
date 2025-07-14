@@ -6,10 +6,10 @@ from typing import Optional
 
 
 class SyntheticGridGenerator:
-    def __init__(self, width: int, height: int, algorithm: str):
-        self._width = width
-        self._height = height
-        self._algorithm = algorithm
+    def __init__(self, width: int = None, height: int = None, algorithm: str = None):
+        self._width: Optional[int] = width
+        self._height: Optional[int] = height
+        self._algorithm: Optional[str] = algorithm
         self.grid: Optional[list[list[int]]] = None
 
     @property
@@ -58,3 +58,9 @@ class SyntheticGridGenerator:
             case "kruskal":
                 print("kruskal")
         return 0
+
+    def clear(self) -> None:
+        self._width = None
+        self._height = None
+        self._algorithm = None
+        self.grid = None
