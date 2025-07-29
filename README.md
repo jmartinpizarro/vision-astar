@@ -5,8 +5,7 @@ states problem that can be solved with simples search algorithm (based or non ba
 
 The project has three parts:
 
-- Synthetic Dataset Generator: used for generating the grid's images. Uses `pygame` for rendering the image, and 
-then it is saved into the `data/` folder with the corresponding (if needed) labels.
+- Dataset: used for training the neural network. A collection of images has been drawn (mainly grids with dimensions between 3-x3 and 6x6). You can find the entire dataset in the `data/` folder with the corresponding (if needed) labels.
 - Neural Network (don't know what I will use yet)
 - Search Algorithm: implement several of them in order to check performance depending on the algorithm.
 
