@@ -5,7 +5,7 @@ states problem that can be solved with simples search algorithm (based or non ba
 
 The project has three parts:
 
-- Dataset: used for training the neural network. A collection of images has been drawn (mainly grids with dimensions between 3-x3 and 6x6). The dataset was created from scratch and you can find in Kaggle.
+- Dataset: used for training the neural network. A collection of images has been generated. The dataset was created from scratch and you can find in Kaggle. The source code is in the folder `src/synthetic_dataset`.
 - Neural Network (don't know what I will use yet)
 - Search Algorithm: implement several of them in order to check performance depending on the algorithm.
 
@@ -15,20 +15,26 @@ Because of the structure of this project, it aims to have a pipeline such as: *P
 
 The dataset has been created from scratch, using a pen and different types of papers. Images are in constant resolution, using an Iphone SE 2020 for capturing the images.
 
-The grid can have a variable size, obstacles represented as `X`, an origin point represented as `F` and a goal point represented as `G`. 
+The grid can have a variable size, obstacles represented as `X`, an origin point represented as `O` and a goal point represented as `G`. 
 
-You can go directly to the dataset using the following [link](https://www.kaggle.com/datasets/javiermartnpizarro/handdrawngrid2matrix/data) or you can execute the following command (if you have already setted up your Kaggle API keys, [see this for more info](https://www.kaggle.com/docs/api#authentication) to download it directly using `cURL`).
+You can go directly to the dataset using the following [link](https://www.kaggle.com/datasets/javiermartnpizarro/gridpathnet) or you can execute the following command (if you have already setted up your Kaggle API keys, [see this for more info](https://www.kaggle.com/docs/api#authentication) to download it directly using `cURL`):
 
 ```bash
 mkdir -p data
 cd data
 
-curl -L -o handdrawngrid2matrix.zip \
-  https://www.kaggle.com/api/v1/datasets/download/javiermartnpizarro/handdrawngrid2matrix
+curl -L -o ~/Downloads/gridpathnet.zip\
+  https://www.kaggle.com/api/v1/datasets/download/javiermartnpizarro/gridpathnet
 
-unzip handdrawngrid2matrix.zip
+unzip gridpathnet.zip
 
-rm handdrawngrid2matrix.zip
+rm gridpathnet.zip
+```
+
+If you can generate your own dataset (as the code is non-deterministic), you can run the following command:
+
+```bash
+python src/synthetic_dataset/generate_noisy_images.py
 ```
 
 
