@@ -23,7 +23,7 @@ You can go directly to the dataset using the following [link](https://www.kaggle
 mkdir -p data
 cd data
 
-curl -L -o ~/Downloads/gridpathnet.zip\
+curl -L -o gridpathnet.zip\
   https://www.kaggle.com/api/v1/datasets/download/javiermartnpizarro/gridpathnet
 
 unzip gridpathnet.zip
@@ -34,7 +34,7 @@ rm gridpathnet.zip
 If you can generate your own dataset (as the code is non-deterministic), you can run the following command:
 
 ```bash
-python src/synthetic_dataset/generate_noisy_images.py
+python src/synthetic_dataset/generation.py
 ```
 
 
