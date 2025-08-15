@@ -8,11 +8,12 @@ import cv2
 IMAGE_SIZE = 300  # 300x300 px
 CELL_SIZE = IMAGE_SIZE // 3
 FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"  # change if you are using windows or macOS
-FONT_SIZE = 60
-FONT_SIZE_V2 = 48
+FONT_SIZE_BIG = 52
+FONT_SIZE_MEDIUM = 38
+FONT_SIZE_SMALL = 28
 OUTPUT_DIR = "data"
 NUM_IMAGES = 500  # each grid size will have this num of images
-csv_lines = ["filename,matrix"]
+csv_lines = ["filename,matrix,size"]
 global_counter = 1
 # make sure the output folder exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -45,9 +46,11 @@ def draw_grid(grid, grid_size: int):
     img = Image.new("RGB", (IMAGE_SIZE, IMAGE_SIZE), "white")
     draw = ImageDraw.Draw(img)
     if grid_size <= 5:
-        font = ImageFont.truetype(FONT_PATH, FONT_SIZE)
+        font = ImageFont.truetype(FONT_PATH, FONT_SIZE_BIG)
+    elif 6 <= grid_size <= 8:
+        font = ImageFont.truetype(FONT_PATH, FONT_SIZE_MEDIUM)
     else:
-        font = ImageFont.truetype(FONT_PATH, FONT_SIZE_V2)
+        font = ImageFont.truetype(FONT_PATH, FONT_SIZE_SMALL)
 
     # draw lines of the grid
     cell_size = IMAGE_SIZE // grid_size
