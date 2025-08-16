@@ -30,7 +30,9 @@ def main():
                 for elem in row:
                     matrix_inline += elem
                 matrix_inline += ","
-            utils.csv_lines.append(f'{filename},"{matrix}",{grid_size},{matrix_inline}')
+            utils.csv_lines.append(
+                f'{filename},"{matrix}",{grid_size},"{matrix_inline}"'
+            )
             utils.global_counter += 1
 
     # save csv
