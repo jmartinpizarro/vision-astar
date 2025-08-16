@@ -25,7 +25,12 @@ def main():
             filename, matrix = utils.save_grid_and_matrix(
                 utils.global_counter, grid, noisy_img
             )
-            utils.csv_lines.append(f'{filename},"{matrix}",{grid_size}')
+            matrix_inline = ""
+            for row in grid:
+                for elem in row:
+                    matrix_inline += elem
+                matrix_inline += ","
+            utils.csv_lines.append(f'{filename},"{matrix}",{grid_size},{matrix_inline}')
             utils.global_counter += 1
 
     # save csv

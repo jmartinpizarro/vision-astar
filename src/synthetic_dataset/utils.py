@@ -13,7 +13,7 @@ FONT_SIZE_MEDIUM = 38
 FONT_SIZE_SMALL = 28
 OUTPUT_DIR = "data"
 NUM_IMAGES = 500  # each grid size will have this num of images
-csv_lines = ["filename,matrix,size"]
+csv_lines = ["filename,matrix,size,matrix_inline"]
 global_counter = 1
 # make sure the output folder exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -24,7 +24,7 @@ SYMBOLS = ["", "O", "G", "X"]
 
 def generate_random_grid(grid_size: int):
     """Generate a random AxB grid with 1 origin, 1 goal and up to 3 obstacles"""
-    grid = [["" for _ in range(grid_size)] for _ in range(grid_size)]
+    grid = [[" " for _ in range(grid_size)] for _ in range(grid_size)]
     # generate all possible positions, then suffle to add randomness
     positions = [(i, j) for i in range(grid_size) for j in range(grid_size)]
     random.shuffle(positions)
