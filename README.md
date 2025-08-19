@@ -13,7 +13,7 @@ Because of the structure of this project, it aims to have a pipeline such as: *P
 
 # Dataset #
 
-The dataset has been created from scratch, using a pen and different types of papers. Images are in constant resolution, using an Iphone SE 2020 for capturing the images.
+The dataset has been created from scratch, using a script.
 
 The grid can have a variable size, obstacles represented as `X`, an origin point represented as `O` and a goal point represented as `G`. 
 

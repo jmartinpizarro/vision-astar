@@ -1,13 +1,21 @@
 import os
 import random
+
+import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
-import cv2
+from matplotlib import font_manager
 
 # Parameters
 IMAGE_SIZE = 300  # 300x300 px
 CELL_SIZE = IMAGE_SIZE // 3
-FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"  # change if you are using windows or macOS
+
+# to avoid using just one font for our dataset
+# notofu bcs PILLOW is bullshit
+FONT_PATHS = FONT_PATHS = font_manager.findSystemFonts(
+    fontpaths=["./fonts"], fontext="ttf"
+)
+
 FONT_SIZE_BIG = 52
 FONT_SIZE_MEDIUM = 38
 FONT_SIZE_SMALL = 28
@@ -45,12 +53,6 @@ def draw_grid(grid, grid_size: int):
     """Draws the grid in a PIL image"""
     img = Image.new("RGB", (IMAGE_SIZE, IMAGE_SIZE), "white")
     draw = ImageDraw.Draw(img)
-    if grid_size <= 5:
-        font = ImageFont.truetype(FONT_PATH, FONT_SIZE_BIG)
-    elif 6 <= grid_size <= 8:
-        font = ImageFont.truetype(FONT_PATH, FONT_SIZE_MEDIUM)
-    else:
-        font = ImageFont.truetype(FONT_PATH, FONT_SIZE_SMALL)
 
     # draw lines of the grid
     cell_size = IMAGE_SIZE // grid_size
@@ -65,7 +67,19 @@ def draw_grid(grid, grid_size: int):
     for i in range(grid_size):
         for j in range(grid_size):
             symbol = grid[i][j]
-            if symbol:
+            if symbol and symbol != " ":
+                try:
+                    choosen_font = random.choice(FONT_PATHS)
+
+                    if grid_size <= 5:
+                        font = ImageFont.truetype(choosen_font, FONT_SIZE_BIG)
+                    elif 6 <= grid_size <= 8:
+                        font = ImageFont.truetype(choosen_font, FONT_SIZE_MEDIUM)
+                    else:
+                        font = ImageFont.truetype(choosen_font, FONT_SIZE_SMALL)
+                except Exception:
+                    font = ImageFont.load_default()
+
                 _, _, w, h = draw.textbbox((0, 0), text=symbol, font=font)
                 x = j * cell_size + (cell_size - w) // 2
                 y = i * cell_size + (cell_size - h) // 2

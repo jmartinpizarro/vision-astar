@@ -7,8 +7,14 @@ import os
 import time
 import argparse
 import logging
+import random
 
 import src.synthetic_dataset.utils as utils
+import config.dataset_generation as config
+
+SEED = config.SEED
+
+random.seed(SEED)  # to ensure reproducibility on the dataset
 
 
 def main():
