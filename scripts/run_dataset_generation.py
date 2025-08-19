@@ -9,6 +9,8 @@ import argparse
 import logging
 import random
 
+from tqdm import tqdm
+
 import src.synthetic_dataset.utils as utils
 import config.dataset_generation as config
 
@@ -24,7 +26,10 @@ def main():
 
     # generate img
     for grid_size in range(3, 11, 1):
-        for i in range(1, utils.NUM_IMAGES + 1):
+        logging.info(f"Generating grid; size: {grid_size}x{grid_size}")
+        for i in tqdm(
+            range(1, utils.NUM_IMAGES + 1), desc=f"Grid {grid_size}x{grid_size}"
+        ):
             grid = utils.generate_random_grid(grid_size)
             clean_img = utils.draw_grid(grid, grid_size)
             noisy_img = utils.apply_noise(clean_img)
@@ -49,7 +54,7 @@ def main():
 
     logging.info(
         "Dataset generation has finished\n"
-        f"Total time elapsed {end - start:.2f}\n"
+        f"Total time elapsed {end - start:.2f} secs\n"
         f"Data can be found in the {utils.OUTPUT_DIR} folder\n"
     )
 
