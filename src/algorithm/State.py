@@ -42,7 +42,7 @@ class State:
                 sucessors.append((h, sucessorNode))
 
         # to the right
-        if self.x < self.size:
+        if self.x < self.size - 1:
             if self.matrix[self.x + 1][self.y] != "X":
                 sucessorNode = State(self.size, self.matrix, self.x + 1, self.y)
                 h = self.heuristic(goalState)
@@ -56,7 +56,7 @@ class State:
                 sucessors.append((h, sucessorNode))
 
         # to the right
-        if self.y < self.size:
+        if self.y < self.size - 1:
             if self.matrix[self.x][self.y + 1] != "X":
                 sucessorNode = State(self.size, self.matrix, self.x, self.y + 1)
                 h = self.heuristic(goalState)
@@ -72,3 +72,6 @@ class State:
         @returns an integer as the heuristic
         """
         return abs(goalState.x - self.x) + abs(goalState.y - self.y)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
