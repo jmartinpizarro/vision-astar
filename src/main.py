@@ -17,7 +17,6 @@ def main():
     print("A solution was calculated for the problem:\n")
 
     for state in path[0]:
-        print(state)
         print(f"({state.x},{state.y}) -> ")
 
     print(

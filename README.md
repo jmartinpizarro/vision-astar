@@ -64,8 +64,9 @@ Splits the full grid image into individual cells (e.g., 3x3 to 10x10 sub-images)
 - `MaxPool2D(2x2)`  
 - `Conv2D(64, 3x3) + ReLU`  
 - `Flatten`  
-- `Dense(128) + ReLU`  
-- `Dense(4) + Softmax`
+- `Dense(128) + ReLU` 
+- `Dropout(p=0.4)` 
+- `Dense(4) + Softmax()`
 
 **Pros**: Simple, interpretable.  
 **Cons**: Requires prior cell segmentation; can't infer grid size.

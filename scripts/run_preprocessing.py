@@ -24,7 +24,7 @@ def main(input_path, output_path, neural_network):
     t_end = time.time()
 
     logging.info(
-        f"Preprocessing has finished...\nTime elapsed: {t_end - t_start:.2f} seconds"
+        f"Preprocessing has finished...\nTime elapsed: {t_end - t_start:.2f} seconds\n"
         f"Data has been saved in: {output_path}\n"
     )
 

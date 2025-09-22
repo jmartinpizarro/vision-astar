@@ -2,7 +2,7 @@
 """
 Script for training the neural network (all of them, depending on the input).
 """
-
+import os
 import argparse
 import logging
 from pathlib import Path
@@ -58,6 +58,8 @@ def main(network, config):
     criterion = nn.CrossEntropyLoss()
     # TODO: wanna research more about dynamic learning rate
     optimizer = optim.Adam(net.parameters(), lr=0.001, weight_decay=1e-5)
+
+    os.makedirs("checkpoints", exist_ok=True)
 
     logging.info("[run_trainer]::Training has started\n")
 

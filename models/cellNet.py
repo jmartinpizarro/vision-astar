@@ -26,12 +26,12 @@ class CellNet(nn.Module):
         # generate 128 output features
         self.fc1 = nn.Linear(24 * 5 * 5, 128)
 
-        # last layer is the Classifier(). Expected outputs are only four: " ", "G", "O", "X"
-        self.fc2 = nn.Linear(128, 4)
-
         # to reduce overfitting (first iterations had a val_acc = 0.99), Dropout
         # layers are implemented, one layer after a conv layer
-        self.dropout = nn.Dropout(0.5)
+        self.dropout = nn.Dropout(0.4)
+
+        # last layer is the Classifier(). Expected outputs are only four: " ", "G", "O", "X"
+        self.fc2 = nn.Linear(128, 4)
 
     def forward(self, x):
         # in order to be able to generate non-linear relations an activation function
@@ -39,8 +39,7 @@ class CellNet(nn.Module):
         # activation function after doing linear operations, such as convolutions
         # or fully connections
 
-        # dropout should go after pooling, as we activate (or not) neurons that resume
-        # data. It wouldn't have any sense to do it before pooling
+        # dropout should go before the last Linear (Dense) layer, as we activate (or not) neurons that resume data. It wouldn't have any sense to do it before pooling
 
         x = self.pool(F.relu(self.conv1(x)))
         x = self.dropout(x)
@@ -48,6 +47,7 @@ class CellNet(nn.Module):
         x = self.dropout(x)
         x = torch.flatten(x, 1)
         x = F.relu(self.fc1(x))
-        x = self.fc2(x)
+        logits = self.fc2(x) # linear output, finally!
+        probs = F.softmax(logits, dim=1)
 
-        return x
+        return probs
