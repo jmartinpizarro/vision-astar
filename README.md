@@ -71,6 +71,12 @@ Splits the full grid image into individual cells (e.g., 3x3 to 10x10 sub-images)
 **Pros**: Simple, interpretable.  
 **Cons**: Requires prior cell segmentation; can't infer grid size.
 
+To run the program with CellNet:
+
+```bash
+python3 -m src.main --file=data/images/grid_0001.jpeg --network=cellNet --size=3
+```
+
 ---
 
 ## 2. GridNet – Full CNN with classification grating
