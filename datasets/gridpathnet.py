@@ -9,19 +9,15 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 from PIL import Image
 
+from datasets.utils import CELLNET_TRANSFORMER_IMAGE, LABEL_ENCODING_STR_INT
+
 
 class GridPathNet(Dataset):
     def __init__(
         self,
         preprocessed_route: str,
         label_mode: str,
-        transform=transforms.Compose(
-            [
-                transforms.Resize((32, 32)),
-                transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            ]
-        ),
+        transform=CELLNET_TRANSFORMER_IMAGE,
     ):
         """
         Constructor of the dataset
@@ -38,7 +34,7 @@ class GridPathNet(Dataset):
         self.transform = transform
 
         if self.label_mode == "int":
-            self.label_mapper = {"O": 0, "G": 1, "X": 2, " ": 3, "F": 4}
+            self.label_mapper = LABEL_ENCODING_STR_INT
 
     def __len__(self):
         return len(self.data)

@@ -2,6 +2,7 @@
 """
 Script for training the neural network (all of them, depending on the input).
 """
+
 import os
 import argparse
 import logging
@@ -42,7 +43,7 @@ def main(network, config):
 
     net = None
 
-    if str(network) == "cellnet":
+    if str(network) == "cellNet":
         net = CellNet()
 
     else:
@@ -124,7 +125,7 @@ def main(network, config):
         # save best model
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            torch.save(net.state_dict(), "./checkpoints/cellnet_best.pth")
+            torch.save(net.state_dict(), f"./checkpoints/{network}_best.pth")
             logging.info(f"Saved best model (val_loss={val_loss:.4f})\n\n")
 
     logging.info("[run_trainer]::Training has finished\n\n")
@@ -155,7 +156,7 @@ def main(network, config):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Vision Astar Vision Script")
+    parser = argparse.ArgumentParser(description="Vision Astar Training Script")
     parser.add_argument("--network", required=True, help="Neural Network To Train")
     parser.add_argument(
         "--config",

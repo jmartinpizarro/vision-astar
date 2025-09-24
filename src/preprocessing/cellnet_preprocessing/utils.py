@@ -9,6 +9,7 @@ from PIL import Image, ImageFilter
 
 rotation_angles = [-45, -30, -15, 15, 30, 45]
 
+
 def generate_output_folders(output_path: str) -> int:
     """
     Generates the output folders required for the preprocessing
@@ -85,35 +86,36 @@ def process_image(
             sub_img = im.crop(box)
             # transform it into a 32x32 image size
             sub_img = sub_img.resize((32, 32))
-            
+
             # remove .jpeg extension
             name, ext = os.path.splitext(fileName)
             fileName = name
 
             sub_img.save(f"{output_path}/images/{fileName}_{c}.jpeg")
-            
+
             output["fileName"].append(f"{fileName}_{c}.jpeg")
             output["label"].append(label)
-            
+
             # after doing studies on the dataset, it is clearly seen that
             # the dataset is unbalanced. Thus, for the images with labels
-            # that are not " ", more actions would be apply such as 
+            # that are not " ", more actions would be apply such as
             # blur and rotation
-            
+
             if label != " ":
                 for angle in rotation_angles:
-                    
                     # rotate
                     rotated = sub_img.rotate(angle=angle)
-                    
+
                     rotated.save(f"{output_path}/images/{fileName}_{c}_{angle}.jpeg")
                     output["fileName"].append(f"{fileName}_{c}_{angle}.jpeg")
                     output["label"].append(label)
-                    
+
                     # add blur
                     blured = rotated.filter(filter=ImageFilter.GaussianBlur(radius=0.5))
-                    
-                    blured.save(f"{output_path}/images/{fileName}_{c}_{angle}_BLUR.jpeg")
+
+                    blured.save(
+                        f"{output_path}/images/{fileName}_{c}_{angle}_BLUR.jpeg"
+                    )
                     output["fileName"].append(f"{fileName}_{c}_{angle}_BLUR.jpeg")
                     output["label"].append(label)
 

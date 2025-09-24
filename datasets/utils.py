@@ -3,11 +3,22 @@ File for declaring utils used in the trainer of neural networks
 """
 
 from typing import Tuple
+from torchvision import transforms
 
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.dataset import random_split
 
 import config.cellnet as cellNet_config  # to ensure reproducibility
+
+CELLNET_TRANSFORMER_IMAGE = transforms.Compose(
+    [
+        transforms.Resize((32, 32)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    ]
+)
+
+LABEL_ENCODING_STR_INT = {"O": 0, "G": 1, "X": 2, " ": 3, "F": 4}
 
 
 def generate_data_loaders(
