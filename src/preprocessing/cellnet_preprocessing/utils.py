@@ -33,7 +33,7 @@ def generate_output_folders(output_path: str) -> int:
     return 0
 
 
-def process_image(
+def process_cellnet_image(
     output: Dict[List[str], List[str]],
     fileName: str,
     size: int,

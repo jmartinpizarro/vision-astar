@@ -39,24 +39,15 @@ python3 -m scripts.run_dataset_generation
 
 # Neural Networks - CNNs #
 
-Different approaches will be considered in order to study the efficiency and size of the different neural networks proposed:
-
-1. **CellNet** – Cell-wise CNN: The input image is split into individual cells, and each one is classified independently (multiclass classification).  
+- **CellNet** – Cell-wise CNN: The input image is split into individual cells, and each one is classified independently (multiclass classification).  
    **Limitation**: This CNN does not infer the grid size; it must be fixed or inferred externally.
-
-2. **GridNet** – CNN with classification grating: A CNN processes the entire image and outputs a `(N, N, 4)` tensor, where each cell is classified into one of the 4 possible symbols (empty, O, G, X). Softmax is applied per cell.  
-   Efficient and interpretable.
-
-3. **ConvHeadNet** – CNN with final convolutional head: Similar to GridNet, but instead of flattening, a final `Conv2D` layer with 4 filters is used. Keeps spatial structure and allows efficient per-cell classification via logits.
-
-4. **ViTGrid** – Vision Transformer with patch embedding: A transformer model with patch-wise embedding processes the image as a sequence. It can handle variable-sized grids but is computationally heavier and overkill for this task.
 
 ---
 
 ## 1. CellNet – Cell-wise CNN
 
 **Description**:  
-Splits the full grid image into individual cells (e.g., 3x3 to 10x10 sub-images) and classifies each as one of the 4 possible symbols: `"O"`, `"G"`, `"X"`, or `""`.
+Splits the full grid image into individual cells (not the Neural Network, but an algorithm in the code) (e.g., 3x3 to 10x10 sub-images) and classifies each as one of the 4 possible symbols: `"O"`, `"G"`, `"X"`, or `""`.
 
 **Architecture** (per cell):  
 - `Input`: (cell_img, e.g. 100×100×3)  
@@ -77,72 +68,7 @@ To run the program with CellNet:
 python3 -m src.main --file=data/images/grid_0001.jpeg --network=cellNet --size=3
 ```
 
----
-
-## 2. GridNet – Full CNN with classification grating
-
-**Description**:  
-Processes the entire image (e.g., 300×300 px) and outputs a 3D tensor (N×N×4), where N is the grid size. Each spatial position corresponds to a symbol class prediction.
-
-**Architecture**:  
-- `Input`: (300×300×3)  
-- `Conv2D(32, 3x3, padding='same') + ReLU`  
-- `Conv2D(64, 3x3, padding='same') + ReLU`  
-- `Conv2D(128, 3x3, padding='same') + ReLU`  
-- `Conv2DTranspose(64, 3x3)` (optional upsampling)  
-- `Conv2D(4, 1x1)` → logits per cell  
-- `Reshape` to (N×N×4), with softmax per cell
-
-**Pros**: End-to-end, infers grid and content.  
-**Cons**: Needs grid-size consistency or dynamic handling.
-
----
-
-## 3. ConvHeadNet – CNN with final convolutional head
-
-**Description**:  
-Similar to GridNet but uses a final convolutional layer to produce class logits directly, maintaining spatial structure without flattening.
-
-**Architecture**:  
-- `Input`: (300×300×3)  
-- `Backbone`: ResNet-like (or MobileNet for lightweight)  
-- `Conv2D(4, 1x1)` → output shape: (N×N×4)  
-- `Softmax` per (i, j) cell
-
-**Pros**: More efficient, fewer parameters.  
-**Cons**: Requires fixed grid size or resizing.
-
----
-
-## 4. ViTGrid – Vision Transformer (ViT) with patch embedding
-
-**Description**:  
-Applies patch-wise tokenization and transformer blocks. Each patch corresponds to a cell, and the model classifies it using global context.
-
-**Architecture**:  
-- `Input`: (300×300×3)  
-- `Patch Embedding`: (e.g., 10x10 patches)  
-- `Transformer Encoder` × L layers  
-- `Classification Head` per patch  
-- Output: (N×N×4) with per-cell predictions
-
-**Pros**: Flexible with grid size, uses full image context.  
-**Cons**: Heavier, needs more data to train effectively.
-
----
-
-## Summary
-
-| Model        | Grid Size Handling | Context Aware | Lightweight | Notes                         |
-|--------------|--------------------|----------------|--------------|-------------------------------|
-| CellNet      | ❌ (manual split)   | ❌              | ✅           | Easy but inflexible           |
-| GridNet      | ⚠️ (fixed or padded) | ✅              | ✅           | Strong baseline                |
-| ConvHeadNet  | ✅ (structured)      | ✅              | ✅✅         | Best efficiency-accuracy tradeoff |
-| ViTGrid      | ✅ (dynamic)         | ✅✅             | ❌           | Best generalization, costly   |
-
 # Preprocessing #
-
-There are two types of preprocessing: one for the `CellNet` network and another script for the others networks.
 
 You may execute the scripts for preprocessing with the following command from the source directory:
 

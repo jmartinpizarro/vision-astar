@@ -40,11 +40,15 @@ def main(file, network, size):
 
     # initilization of the problem
     # specific case for cellNet
-    if network == "cellNet":
-        if 0 >= size >= 10:
-            logging.error("Size can only be an integer in range [0, 10]")
+    if network != "cellNet":
+        logging.error("[main]::The network can only be 'cellNet'")
+        return -1
+    
+    if 0 >= size >= 10:
+        logging.error("Size can only be an integer in range [0, 10]")
+        return -1
 
-        model = load_model(network)
+    model = load_model(network)
 
     print_model_state_dict(model)
 
@@ -153,7 +157,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--network",
         required=True,
-        help="Network to solve the problem. If using CellNet, an optional parameter --size must be used. This parameter can only be: cellNet, gridNet, convHeadNet, vitGrid",
+        help="Network to solve the problem. If using CellNet, an optional parameter --size must be used. This parameter can only be: cellNet",
     )
     parser.add_argument(
         "--size",

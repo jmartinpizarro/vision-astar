@@ -38,7 +38,8 @@ def preprocess_dataset(input_path: str, output_path: str, neural_network: str) -
     for index, row in images_metadata.iterrows():
         fileName, size, matrix_str = row["filename"], row["size"], row["matrix_inline"]
 
-        utils.process_image(output, fileName, size, matrix_str, input_path, output_path)
+        if neural_network != "cellNet":
+            utils.process_cellnet_image(output, fileName, size, matrix_str, input_path, output_path)
 
     df = pd.DataFrame(output)
     df.to_csv(f"{output_path}/preprocessed_dataset.csv", index=False)
